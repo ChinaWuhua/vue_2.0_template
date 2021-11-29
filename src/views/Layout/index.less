@@ -1,0 +1,37 @@
+@frame-border-color: #ddd; // border颜色
+@frame-top-height: 40px; // top高度
+
+.v-body {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  .v-sider {
+    width: 260px;
+    border-right: 1px solid @frame-border-color;
+  }
+  .v-container {
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+  }
+  .v-top {
+    height: @frame-top-height;
+    width: 100%;
+    border-bottom: 1px solid @frame-border-color;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  .v-wrap {
+    position: absolute;
+    left: 0;
+    top: @frame-top-height;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+  }
+}

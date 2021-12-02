@@ -9,8 +9,10 @@
   justify-content: flex-start;
   align-content: flex-start;
   .v-sider {
+    position: relative;
     width: 260px;
     border-right: 1px solid @frame-border-color;
+    z-index: 2;
   }
   .v-container {
     position: relative;
@@ -25,6 +27,7 @@
     top: 0;
     left: 0;
     right: 0;
+    z-index: 2;
   }
   .v-wrap {
     position: absolute;
@@ -33,5 +36,6 @@
     right: 0;
     bottom: 0;
     overflow: auto;
+    z-index: 1;
   }
 }

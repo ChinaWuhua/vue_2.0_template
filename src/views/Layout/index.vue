@@ -18,6 +18,7 @@
 import Sider from './sider.vue'
 import Top from './top.vue'
 export default {
+  name: 'Layout',
   components: {
     Sider, Top
   }

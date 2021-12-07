@@ -8,8 +8,13 @@
       <span class="button" @click="nextYear">下一年</span>
     </div>
     <ul>
+      <!--头部-->
       <li class="header" v-for="(item, index) in Header" :key="`header-${index}`">{{ item }}</li>
-      <li v-for="(item, index) in begin" :key="`empty-${index}`"></li>
+      <!--头部空格补全-->
+      <li v-for="(item, index) in begin" :key="`begin-${index}`" class="disabledDay">
+        {{ item.Day }}
+      </li>
+      <!--日期-->
       <li v-for="(item, index) in Days" :key="`day-${index}`" @click="ClickDay({
         Year,
         Month: Month < 10 ? '0' + Month : Month,
@@ -22,11 +27,15 @@
             Month: Month < 10 ? '0' + Month : Month,
             Day: index * 1 < 9 ? '0' + (index + 1) : index + 1,
             FullDay: `${Year}-${Month < 10 ? '0' + Month : Month}-${index * 1 < 9 ? '0' + (index + 1) : index + 1}`
-          }"></slot>
+          }" />
         </template>
         <template v-else>
-          <span class="day">{{ index + 1 }}</span>
+          <span class="day">{{ Day }}</span>
         </template>
+      </li>
+      <!--尾部空格补全-->
+      <li v-for="(item, index) in end" :key="`end-${index}`" class="disabledDay">
+        {{ item.Day }}
       </li>
     </ul>
   </div>
@@ -36,7 +45,8 @@
 export default {
   data () {
     return {
-      begin: 0,
+      begin: [],
+      end: [],
       Header: ['一', '二', '三', '四', '五', '六', '日'],
       DateObj: null,
       Year: 0,
@@ -78,14 +88,65 @@ export default {
       this.init(`${this.Year}-${this.Month}`)
     },
     init (dateStr) {
+      // 当月
       this.DateObj = dateStr ? new Date(dateStr) : new Date()
       this.Year = this.DateObj.getFullYear()
       this.Month = this.DateObj.getMonth() + 1
       const daysObj = new Date(this.Year, this.Month, 0)
       const count = daysObj.getDate()
-      this.Days = new Array(count)
-      const week = new Date(`${this.Year}-${this.Month}-01`)
-      this.begin = week.getDay() - 1
+      const Days = new Array(count)
+      this.Days = Days.map((item, index) => ({
+        Day: index + '1',
+        Month: this.Month,
+        Year: this.Year,
+        count: count
+      }))
+
+      // 获取上月数据，补全头部空格
+      const ifPrevYear = this.Month - 1 > 0
+      const prevMonth = ifPrevYear ? this.Month - 1 : 12
+      const prevYear = ifPrevYear ? this.Year : this.Year - 1
+      const prevDaysObj = new Date(prevYear, prevMonth, 0)
+      const prevCount = prevDaysObj.getDate()
+      const prevArr = []
+      for (let i = 0; i < prevCount; i++) {
+        prevArr.push({
+          Day: i + 1,
+          Month: prevMonth,
+          Year: prevYear,
+          count: prevCount
+        })
+      }
+      const startDay = new Date(`${this.Year}-${this.Month}-01`)
+      let begin = startDay.getDay()
+      if (begin === 0) begin = 7
+      this.begin = prevArr.slice(prevArr.length - begin + 1)
+
+      // 获取下月数据，补全尾部空格
+      const ifNextYear = this.Month + 1 <= 12
+      const nextMonth = ifNextYear ? this.Month + 1 : 1
+      const nextYear = ifNextYear ? this.Year : this.Year + 1
+      const nextDaysObj = new Date(nextYear, nextMonth, 0)
+      const nextCount = nextDaysObj.getDate()
+      const nextArr = []
+      for (let i = 0; i < nextCount; i++) {
+        nextArr.push({
+          Day: i + 1,
+          Month: nextMonth,
+          Year: nextYear,
+          count: nextCount
+        })
+      }
+      const endDate = new Date(`${this.Year}-${this.Month}-${count}`)
+      let endDay = endDate.getDay()
+      if (endDay === 0) endDay = 7
+      if (7 - endDay > 0) {
+        const len = 7 - endDay
+        this.end = nextArr.slice(0, len)
+        console.log(this.end)
+      } else {
+        this.end = []
+      }
     }
   }
 }

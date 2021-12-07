@@ -1,14 +1,16 @@
 <template>
   <div style="margin: 20px 20px;">
-    <Calendar @chosed="chosed">
-      <template slot="day" slot-scope="date">
-        <span v-if="!warningDay.includes(date.date.FullDay)">{{ date.date.Day }}</span>
-        <span v-else>
-          {{ date.date.Day }}
-          <i class="warn"></i>
-        </span>
-      </template>
-    </Calendar>
+    <div class="date" style="max-width: 800px;">
+      <Calendar @chosed="chosed">
+        <template slot="day" slot-scope="date">
+          <span class="day" v-if="!warningDay.includes(date.date.FullDay)">{{ date.date.Day }}</span>
+          <span v-else>
+            {{ date.date.Day }}
+            <i class="warn"></i>
+          </span>
+        </template>
+      </Calendar>
+    </div>
   </div>
 </template>
 
@@ -21,7 +23,7 @@ export default {
   data () {
     return {
       warningDay: [
-        '2021-12-02'
+        '2021-12-02', '2021-12-03', '2021-12-08'
       ]
     }
   },

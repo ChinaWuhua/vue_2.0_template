@@ -6,6 +6,7 @@
       <span class="tip">{{ Year }}-{{ Month > 9 ? Month : '0' + Month }}</span>
       <span class="button" @click="nextMonth">下月</span>
       <span class="button" @click="nextYear">下一年</span>
+      <span class="button" @click="today">本月</span>
     </div>
     <ul>
       <!--头部-->
@@ -15,12 +16,12 @@
         {{ item.Day }}
       </li>
       <!--日期-->
-      <li v-for="(item, index) in Days" :key="`day-${index}`" @click="ClickDay({
+      <li v-for="(item, index) in Days" :key="`day-${index}`" :class="{chosed: index === chosed}" @click="ClickDay({
         Year,
         Month: Month < 10 ? '0' + Month : Month,
         Day: index * 1 < 9 ? '0' + (index + 1) : index + 1,
         FullDay: `${Year}-${Month < 10 ? '0' + Month : Month}-${index * 1 < 9 ? '0' + (index + 1) : index + 1}`
-      })">
+      }, index)">
         <template v-if="$scopedSlots.day">
           <slot name="day" :date="{
             Year,
@@ -51,14 +52,19 @@ export default {
       DateObj: null,
       Year: 0,
       Month: 0,
-      Days: []
+      Days: [],
+      chosed: -1
     }
   },
   mounted () {
     this.init()
   },
   methods: {
-    ClickDay (obj) {
+    today () {
+      this.init()
+    },
+    ClickDay (obj, index) {
+      this.chosed = index
       this.$emit('chosed', obj)
     },
     nextYear () {
@@ -88,6 +94,7 @@ export default {
       this.init(`${this.Year}-${this.Month}`)
     },
     init (dateStr) {
+      this.chosed = -1
       // 当月
       this.DateObj = dateStr ? new Date(dateStr) : new Date()
       this.Year = this.DateObj.getFullYear()

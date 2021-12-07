@@ -4,7 +4,7 @@
       <Calendar @chosed="chosed">
         <template slot="day" slot-scope="date">
           <span class="day" v-if="!warningDay.includes(date.date.FullDay)">{{ date.date.Day }}</span>
-          <span v-else>
+          <span class="day" v-else>
             {{ date.date.Day }}
             <i class="warn"></i>
           </span>

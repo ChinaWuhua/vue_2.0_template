@@ -143,7 +143,6 @@ export default {
       if (7 - endDay > 0) {
         const len = 7 - endDay
         this.end = nextArr.slice(0, len)
-        console.log(this.end)
       } else {
         this.end = []
       }

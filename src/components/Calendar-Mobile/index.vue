@@ -45,11 +45,11 @@
     </div>
 
     <div class="test">
-      start: <span>{{ startX }}</span> - <span>{{ startY }}</span>
+      起始点: <span>{{ startX }}</span> - <span>{{ startY }}</span>
       <br />
-      end: <span>{{ endX }}</span> - <span>{{ endY }}</span>
+      移动至: <span>{{ endX }}</span> - <span>{{ endY }}</span>
       <br />
-      touchtime: <span>{{ touchtime }}</span>s
+      精确滑动: <span>{{ touchtime }}</span>
       <br />
     </div>
   </div>
@@ -76,7 +76,7 @@ export default {
       startY: 0,
       endX: 0,
       endY: 0,
-      touchtime: 0,
+      touchtime: false,
       timeObj: null
     }
   },
@@ -88,19 +88,26 @@ export default {
     touchmove (e) {
       this.endX = e.changedTouches[0].pageX
       this.endY = e.changedTouches[0].pageY
-      if (Math.abs(this.endY - this.startY) < 300) {
-        this.moving = parseInt(this.endY - this.startY)
-      }
+      const distance = parseInt(this.endY - this.startY)
+      this.moving = distance
     },
     touchend (e) {
-      // this.moved += this.moving
+      const num = this.moving > 0 ? 1 : -1
+      const seek = this.moving % 60
+      const diff = Math.abs(seek) > 30
+      this.moved += this.moving
       this.moving = 0
+      if (diff === true) {
+        this.moved += (60 - Math.abs(seek)) * num
+      } else {
+        this.moved -= seek
+      }
       clearTimeout(this.timeObj)
     },
     touchstart (e) {
-      this.touchtime = 0
+      this.touchtime = false
       this.timeObj = setTimeout(() => {
-        this.touchtime += 1
+        this.touchtime = true
       }, 400)
       this.startX = e.touches[0].pageX
       this.startY = e.touches[0].pageY

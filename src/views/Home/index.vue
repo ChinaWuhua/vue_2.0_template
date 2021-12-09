@@ -1,7 +1,7 @@
 <template>
   <div style="margin: 20px 20px;">
     <div class="date" style="max-width: 800px;">
-      <Calendar @chosed="chosed">
+      <CalendarMobile>
         <template slot="day" slot-scope="date">
           <span class="day" v-if="!warningDay.includes(date.date.FullDay)">{{ date.date.Day }}</span>
           <span class="day" v-else>
@@ -9,16 +9,16 @@
             <i class="warn"></i>
           </span>
         </template>
-      </Calendar>
+      </CalendarMobile>
     </div>
   </div>
 </template>
 
 <script>
-import Calendar from '@/components/Calendar/index'
+import CalendarMobile from '@/components/Calendar-Mobile/index'
 export default {
   components: {
-    Calendar
+    CalendarMobile
   },
   data () {
     return {

@@ -1,0 +1,86 @@
+.Calendar-Mobile {
+  height: 390px;
+  position: relative;
+  overflow: hidden;
+  .tip {
+    color: #999;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    height: 30px;
+  }
+  .header {
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+    li {
+      color: #b1b1b1;
+      font-size: 16px;
+    }
+  }
+  ul {
+    position: relative;
+    margin: 0;
+    pad: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    z-index: 1;
+    li {
+      list-style: none;
+      border-top: 0;
+      border-left: 0;
+      width: calc(100% / 7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: #333;
+      height: 60px;
+      font-size: 14px;
+      .day {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 40px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #eee;
+        &:hover {
+          background-color: #eee;
+        }
+      }
+    }
+    .disabledDay {
+      color: #ccc;
+      cursor: not-allowed;
+    }
+    .chosed {
+      .day {
+        border-color: #00a1ff;
+        background-color: #00a1ff !important;
+        color: #fff;
+      }
+    }
+  }
+  .animate {
+    transition: .2s;
+  }
+}
+
+.test {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}

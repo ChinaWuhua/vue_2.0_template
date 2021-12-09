@@ -1,7 +1,7 @@
 <template>
   <div style="margin: 20px 20px;">
     <div class="date" style="max-width: 800px;">
-      <CalendarMobile>
+      <CalendarMobile @chosed="chosed">
         <template slot="day" slot-scope="date">
           <span class="day" v-if="!warningDay.includes(date.date.FullDay)">{{ date.date.Day }}</span>
           <span class="day" v-else>

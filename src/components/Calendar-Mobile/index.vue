@@ -95,13 +95,13 @@ export default {
       const num = this.moving > 0 ? 1 : -1
       const seek = this.moving % 60
       const diff = Math.abs(seek) > 30
+      if (diff === true) {
+        this.moving += (60 - Math.abs(seek)) * num
+      } else {
+        this.moving -= seek
+      }
       this.moved += this.moving
       this.moving = 0
-      if (diff === true) {
-        this.moved += (60 - Math.abs(seek)) * num
-      } else {
-        this.moved -= seek
-      }
       clearTimeout(this.timeObj)
     },
     touchstart (e) {
